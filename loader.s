@@ -1,6 +1,6 @@
 global loader                       ; the entry symbol for ELF
 
-    MAGIC_NUMBER equ 0x1BADB002     ; define the magic number constant
+    MAGIC_NUMBER  equ 0x1BADB002     ; define the magic number constant
     FLAGS        equ 0x0            ; multiboot flags
     CHECKSUM     equ -MAGIC_NUMBER  ; calculate the checksum
                                     ; (magic number + checksum + flags should equal 0)
@@ -21,12 +21,11 @@ section .bss
    
 
   loader:                           ; the loader label (defined as entry point in linker script)
-       	mov esp, kernel_stack + KERNEL_STACK_SIZE   ; point esp to the start of the stack (end of memory area)
-	extern fn
-	push dword 3
-	push dword 2
-	push dword 1	
-	call fn
+	
+	mov esp, kernel_stack + KERNEL_STACK_SIZE   ; point esp to the start of the stack (end of memory area)
+	extern fb_write_cell
+	call fb_write_cell
+		
 
   .loop:
         jmp .loop                   ; loop forever
